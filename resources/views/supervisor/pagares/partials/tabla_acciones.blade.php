@@ -65,7 +65,8 @@
                          Debe ingresar un motivo para poder anular este pagare
                         <div class="form-group row">
                           <div class="col-6">
-                            <input type="text" name="motivo" value="" class="form-control" required>
+                            <input type="text" name="motivo" value="" class="form-control" required placeholder="tienes un maximo de 300 caracteres" maxlength="300">
+                            <input type="hidden" name="motivo_autor" value="<?=Auth::user()->full_nombre?>" class="form-control" required>
                           </div>
                           <div class="col-1">
                             <button class="btn btn-primary" style="border-radius: 0.25rem" type="button" onclick="seccion_anular_none()">Abortar</button>
@@ -138,77 +139,93 @@
 
 <!--             <a href="{{ route('supervisor.pagare.observacionMostrar', [$pagare->id]) }}" class="btn btn-primary">Mostrar Historico</a>
  -->
-<br><br>
- Revise el historico de las observaciones realizadas a este pagare, presione el siguiente boton
-   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#yourModal{{$pagare->id}}" style="font-size: 13px; padding:6px; padding-left: 10px; padding-right: 10px;padding-bottom: -1px;" id="boton_lista{{$pagare->id}}">Mostrar Historico</button>
+<?php  
+if ($observaciones->count()<1){
+
+}else{?>
+        <br><br>
+        Revise el historico de las observaciones realizadas a este pagare, presione el siguiente boton
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#yourModal{{$pagare->id}}" style="font-size: 13px; padding:6px; padding-left: 10px; padding-right: 10px;padding-bottom: -1px;" id="boton_lista{{$pagare->id}}">Mostrar Historico</button>
 
 
+        <!-- MODAL HISTORICO-->
+        <div class="modal fade modal-on" id="yourModal{{$pagare->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+          <div class="modal-dialog modal-lg" role="document" style=" top: 0%; width: 100%;">
+           
+
+           <script>
+               var boton_lista_js= document.getElementById("boton_lista{{$pagare->id}}");
+                   
+                   <?php  
+                        if ($observaciones->count()<1) {
+                    ?>       
+                       boton_lista_js.disabled=true;
+                    <?php  
+                   }
+                   ?>
+           </script>
 
 
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                <h4 class="modal-title" id="myModalLabel">Observaciones Pagare N° <strong>{{$pagare->numeracion}}</strong></h4>
+              </div>
+
+              <div class="modal-body">
+                <table id="example" class="table table-hover table-bordered" style="width:100%; table-layout: fixed" >
+                    <thead>
+                        <tr>
+                            <!--<th style="">Nº</th>-->
+                            <th style="width: 15%">Fecha creacion</th>
+                            <th style="">Observacion</th>
+                            <th style="width: 25%">Creado por</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($observaciones as $k)
+                            <tr>
+                                <td>{{\Carbon\Carbon::parse($k->created_at)->format('d-m-Y')}}</td>
+                                <td>{{$k->observacion}}</td>
+                                <td>{{$k->usuario->full_nombre}}</td>
+                            </tr>
+                        @endforeach         
+                    </tbody>
+                </table>            
+
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+<?php }
+
+?>
         </p>
-
-
-                                
-                            <!-- MODAL HISTORICO-->
-                                <div class="modal fade modal-on" id="yourModal{{$pagare->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
-                                  <div class="modal-dialog modal-lg" role="document" style=" top: 0%; width: 100%;">
-                                   
-
-                                   <script>
-                                       var boton_lista_js= document.getElementById("boton_lista{{$pagare->id}}");
-                                           
-                                           <?php  
-                                                if ($observaciones->count()<1) {
-                                            ?>       
-                                               boton_lista_js.disabled=true;
-                                            <?php  
-                                           }
-                                           ?>
-                                   </script>
-
-
-                                    <div class="modal-content">
-
-                                      <div class="modal-header">
-                                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-                                        <h4 class="modal-title" id="myModalLabel">Observaciones Pagare N° <strong>{{$pagare->numeracion}}</strong></h4>
-                                      </div>
-
-                                      <div class="modal-body">
-                                        <table id="example" class="table table-hover table-bordered" style="width:100%; table-layout: fixed" >
-                                            <thead>
-                                                <tr>
-                                                    <!--<th style="">Nº</th>-->
-                                                    <th style="width: 15%">Fecha creacion</th>
-                                                    <th style="">Observacion</th>
-                                                    <th style="width: 25%">Creado por</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($observaciones as $k)
-                                                    <tr>
-                                                        
-                                                        <td>{{\Carbon\Carbon::parse($k->created_at)->format('d-m-Y')}}</td>
-                                                        <td>{{$k->observacion}}</td>
-                                                        <td>{{$k->usuario->full_nombre}}</td>
-                                                    </tr>
-                                                @endforeach         
-                                            </tbody>
-                                        </table>            
-
-                                      </div>
-
-                                      <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-
-                                      </div>
-
-                                    </div>
-                                  </div>
-                                </div>
-
-
-
+        <hr>
+<!-- MANDAR A JUDICIAL-->
+        <div>
+            <h5 class="card-title">Judicial</h5>
+            <p class="card-text">
+                {!! Form::model($pagare, ['route'=> ['supervisor.pagare.estado.judicial', $pagare], 'method' => 'PUT', 'id' => 'from3']) !!}
+                     Para enviar el pagare a proceso judicial presione el siguiente boton   
+                            {!! Form::submit('Enviar a judicial', ['class' => 'btn btn-primary', 'id' =>'btn-submit3']) !!} 
+                {!! Form::close() !!}   
+            </p>
+        </div>
 
     </div>
 </div>
+
+
+
+
+
+

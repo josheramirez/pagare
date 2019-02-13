@@ -6,6 +6,7 @@ Route::get('pagare/deuda/{deuda}/edit', 'PagareController@editDeuda')->name('sup
 Route::put('pagare/deuda/{deuda}', 'PagareController@updateDeuda')->name('supervisor.pagare.deuda.update');
 Route::get('pagare/copiar/{pagare}/paciente', 'PagareController@copiarDeudor')->name('supervisor.pagare.paciente.copiar');
 Route::put('pagare/anular/{pagare}', 'PagareController@updateEstadoAnular')->name('supervisor.pagare.estado.anular');
+Route::put('pagare/judicial/{pagare}', 'PagareController@updateEstadoJudicial')->name('supervisor.pagare.estado.judicial');
 
 /*
 Route::post('pagare/deudor-deuda', 'PagareController@storeDeudorDeuda')->name('pagare.deudor-deuda.store');

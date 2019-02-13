@@ -118,7 +118,7 @@ class PagareController extends Controller
         $paciente->paterno = $deudor->paterno;
         $paciente->materno = $deudor->materno;
         $paciente->rut = formatoRut($deudor->rut) ;
-
+        $paciente->pasaporte= $deudor->pasaporte;
         $paciente->save();
 
 
@@ -431,12 +431,26 @@ class PagareController extends Controller
 
         $dato=request('motivo');
 
+$autor=request('motivo_autor');
+$fecha=Carbon::now();
+
+//return dd($dato,$autor,$fecha);
+
         $pagare->motivo=$dato;
         $pagare->estado_id = 3;
+        $pagare->motivo_autor=$autor;
+        $pagare->motivo_fecha=$fecha;
         $pagare->save();
-        $log = Log::saveLog($pagare->codigo, 'ANULAR PAGARE');
+        $log = Log::saveLog($pagare->codigo, 'ANULAR PAGARE ');
         return redirect()->route('supervisor.pagare.view', [$pagare->id]);
     }
+
+public function updateEstadoJudicial(Pagare $pagare)
+{
+
+        return dd($pagare);
+}
+
 
   
 /* ANTIGUO METODO ANULAR

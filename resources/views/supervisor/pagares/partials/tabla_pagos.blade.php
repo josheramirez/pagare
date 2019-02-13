@@ -24,7 +24,7 @@
                         <tr>
                             <th scope="row">{{ $conta }}</th>
                             
-                            <td>{{ $pago->monto }}</td>
+                            <td>{{ number_format($pago->monto , 0, ',', '.') }}</td>
                          
                             <td>{{ formatoFecha($pago->f_pago) }}</td>
                             <td>{{ $pago->estado }}</td>
@@ -67,8 +67,8 @@
                     <?php  if($pago->n_cuota==0||$pago->estado=="antiguo")continue;?>
                     <tr>
                         <th scope="row">{{ $pago->n_cuota }}</th>
-                        <td>{{ $pago->monto }}</td>
-                        <td>{{ $pago->monto_pagado }}</td>
+                        <td><strong>{{ number_format($pago->monto , 0, ',', '.') }}</strong></td>
+                        <td><strong>{{ number_format($pago->monto_pagado , 0, ',', '.')}}</strong></td>
                         <td>{{ formatoFecha($pago->f_vencimiento) }}</td>
                         <td>{{ formatoFecha($pago->f_pago) }}</td>
                         <td>{{ $pago->estado }}</td>
@@ -81,4 +81,36 @@
     </div>
 </div>
  @endif
+
+
+@if($pagare->estado_id == 3)
+<br>
+<div class="card">
+    <div class="card-body">
+
+    <h5 class="card-title">Motivo Anulacion</h5>
+
+        
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">Motivo</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Fecha</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                    <tr>
+                        <td>{{ $pagare->motivo }}</th>
+                        <td>{{ $pagare->motivo_autor }}</td>
+                        <td>{{ $pagare->motivo_fecha }}</td>
+                    </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+ @endif
+
 

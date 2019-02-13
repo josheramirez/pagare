@@ -12,6 +12,8 @@ class Pagare extends Model
     protected $table = 'pagares';
 
     protected $fillable = [
+        'motivo_fecha',
+        'motivo_autor',
         'numeracion',
         'codigo',
         'fecha',

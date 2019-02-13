@@ -45,10 +45,16 @@
             @endif
         </div>
         @include('supervisor.pagares.partials.tabla_acciones')
+
         @if($pagare->estado_id == 2 && ( $numero_pagos > 0 || $pago_sin_deuda>0 || $pagos->count()>0))
             @include('supervisor.pagares.partials.tabla_pagos')
         @endif
+
         @if($pagare->estado_id == 1 || $pagare->estado_id == 2)
+        @endif
+
+        @if($pagare->estado_id == 3)
+             @include('supervisor.pagares.partials.tabla_pagos');
         @endif
     </div>
 @endsection
@@ -103,6 +109,35 @@
                     if (isConfirm) {
                         swal({
                             title: '¡Anulado!',
+                            type: 'success'
+                        }, function() {
+                            form.submit();
+                        });
+
+                    } else {
+                        swal("Cancelado", "", "error");
+                    }
+                });
+        });
+    </script>
+    <script>
+        document.querySelector('#from3').addEventListener('submit', function(e) {
+            var form = this;
+            e.preventDefault();
+            swal({
+                    title: "¿Seguro quieres enviar a judicial?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Si, ¡seguro!',
+                    cancelButtonText: "No, ¡cancelar!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        swal({
+                            title: '¡Enviado a Judicial!',
                             type: 'success'
                         }, function() {
                             form.submit();

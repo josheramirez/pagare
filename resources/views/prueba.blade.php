@@ -35,11 +35,12 @@
                     <th style="border-bottom:none; font-size: 12px; padding-top: 45px" id="paciente_prevision"><a class="toggle-vis" data-column="9" style="cursor: pointer;color:#337ab7">ocultar</a></th>
                     <th style="border-bottom:none; font-size: 12px; padding-top: 45px" id="pagare_fecha"><a class="toggle-vis" data-column="10" style="cursor: pointer;color:#337ab7">ocultar</a></th>
                     <th style="border-bottom:none; font-size: 12px; padding-top: 45px" id="pagare_monto"><a class="toggle-vis" data-column="11" style="cursor: pointer;color:#337ab7">ocultar</a></th>
-                    <th style="border-bottom:none; font-size: 12px; padding-top: 45px" id="pagare_n_cuotas"><a class="toggle-vis" data-column="12" style="cursor: pointer;color:#337ab7">ocultar</a></th>
-                    <th style="border-bottom:none; font-size: 12px; padding-top: 45px" id="pagare_listar_cuotas"><a class="toggle-vis" data-column="13" style="cursor: pointer;color:#337ab7">ocultar</a></th>
-                    <th style="border-bottom:none; font-size: 12px; padding-top: 45px" id="pagare_valor_cuota"><a class="toggle-vis" data-column="14" style="cursor: pointer;color:#337ab7">ocultar</a></th>
-                    <th style="border-bottom:none; font-size: 12px; padding-top: 45px" id="pagare_vencimiento"><a class="toggle-vis" data-column="15" style="cursor: pointer;color:#337ab7">ocultar</a></th>
-                    {{--<th style="border-bottom:none; font-size: 12px; padding-top: 45px" id="pagare_saldo"><a class="toggle-vis" data-column="16" style="cursor: pointer;color:#337ab7">ocultar</a></th>--}}
+                    <th style="border-bottom:none; font-size: 12px; padding-top: 45px" id="por_pagar" class="toggle-vis" data-column="12" style="cursor: pointer;color:#337ab7">ocultar</a></th>
+
+                    <th style="border-bottom:none; font-size: 12px; padding-top: 45px" id="pagare_n_cuotas"><a class="toggle-vis" data-column="13" style="cursor: pointer;color:#337ab7">ocultar</a></th>
+                    <th style="border-bottom:none; font-size: 12px; padding-top: 45px" id="pagare_listar_cuotas"><a class="toggle-vis" data-column="14" style="cursor: pointer;color:#337ab7">ocultar</a></th>
+                    <th style="border-bottom:none; font-size: 12px; padding-top: 45px" id="pagare_valor_cuota"><a class="toggle-vis" data-column="15" style="cursor: pointer;color:#337ab7">ocultar</a></th>
+                    <th style="border-bottom:none; font-size: 12px; padding-top: 45px" id="pagare_vencimiento"><a class="toggle-vis" data-column="16" style="cursor: pointer;color:#337ab7">ocultar</a></th>
                 </tr >
                 <tr>
                    <th>N° pagare</th>
@@ -61,6 +62,7 @@
                     <th>Valor Cancelado</th>
                     <th>N° Boleta o Bono</th> -->
                     <th>Monto</th>
+                    <th>Por pagar</th>
                     <th>N° de cuotas</th>
                     <th class="noExport">Listar cuotas</th>
                     {{--<th>Valor Cuota</th>--}}
@@ -107,6 +109,10 @@
                                 $monto_pagado=$p_cuotas->sum('monto_pagado');
                                 $saldo_deuda=$p->total-$monto_pagado;
                             }
+
+                            if($p->estado_id==3){
+                                 $saldo_deuda=-3000;
+                            }
                           
                         ?>
 
@@ -117,21 +123,21 @@
 
 
                             if($p->estado_id==3){?>
-                                <button type="button" class="btn btn-danger btn-lg" style="font-size: 14px; padding:0px; padding-left: 16px; padding-right: 16px;"> Anulado
+                                <button type="button" class="btn btn-danger btn-lg" style="font-size: 14px; padding:0px; padding-left: 16px; padding-right: 16px;">Anulado</button>
                             <?php 
                             }else{
 
                                     if($saldo_deuda>10){ ?>
-                                        <button type="button" class="btn btn-warning btn-lg" style="font-size: 14px; padding:0px; padding-left: 10px; padding-right: 11px;">Pendiente
+                                        <button type="button" class="btn btn-warning btn-lg" style="font-size: 14px; padding:0px; padding-left: 10px; padding-right: 11px;">Pendiente</button>
                                     <?php } 
                                     if($saldo_deuda<=10 && $saldo_deuda>=-100){ ?>
-                                        <button type="button" class="btn btn-success btn-lg" style="font-size: 14px; padding:0px; padding-left: 19px; padding-right: 19px;">Pagado
+                                        <button type="button" class="btn btn-success btn-lg" style="font-size: 14px; padding:0px; padding-left: 19px; padding-right: 19px;">pagado</button>
                                     <?php } 
                                      if($saldo_deuda==-1000){ ?>
-                                        <button type="button" class="btn btn-purple btn-lg" style="font-size: 14px; padding:0px; padding-left: 6px; padding-right: 6px; background-color: #742CD1;color: #ffffff">Abononado
+                                        <button type="button" class="btn btn-purple btn-lg" style="font-size: 14px; padding:0px; padding-left: 6px; padding-right: 6px; background-color: #742CD1;color: #ffffff">Abonado</button>
                                     <?php } 
                                     if($saldo_deuda==-2000){ ?>
-                                        <button type="button" class="btn btn-info btn-lg" style="font-size: 14px; padding:0px; padding-left: 19px; padding-right: 19px;">Abierto
+                                        <button type="button" class="btn btn-info btn-lg" style="font-size: 14px; padding:0px; padding-left: 19px; padding-right: 19px;">Abierto</button>
                                     <?php } 
                             }
                             ?>     
@@ -157,8 +163,17 @@
 
 
 
+                        <td><strong>{{ number_format($p->total, 0, ',', '.')}}</strong></td>
 
-                        <td>{{ $p->total}}</td>
+                        @if($saldo_deuda>10||$saldo_deuda<=10 && $saldo_deuda>=-100)
+                            @if($saldo_deuda>10)
+                                <td><strong>{{ number_format($saldo_deuda, 0, ',', '.')}}</strong></td>
+                            @else($saldo_deuda<=10 && $saldo_deuda>=-100)
+                             <td><strong>0</strong></td>
+                            @endif
+                        @else
+                            <td> </td>
+                        @endif
                         <td>{{$p->n_cuota}}</td>
 
                         <td data-sort="<?php echo $p->n_cuota ?>">   
@@ -168,7 +183,7 @@
 
 
 <!-- MODAL  -->
-                                  <div class="modal-dialog" role="document" style=" top: 0%; width: 800px;">
+                                  <div class="modal-dialog modal-lg" role="document" style=" top: 0%; width: 800px;">
                                    <script>
                                        var boton_lista_js= document.getElementById("boton_lista{{$p->id}}");
                                        <?php  
@@ -235,7 +250,12 @@
                                                     <tr>
                                                         
                                                         <td>{{$k->n_cuota}}</td>
-                                                        <td>{{$k->monto_pagado}}</td>
+                                                        <?php 
+ $dato=number_format($k->monto_pagado, 0, ',', '.');
+                                                        ?>
+                                                       
+                                                        
+                                                        <td><strong>{{$dato}}</strong></td>
                                                         <td>{{$k->f_vencimiento}}</td>
                                                         <td>{{$k->n_boleta}}</td>
                                                         <td>
@@ -265,7 +285,7 @@
                                 </div>
                         </td>
 
-                        {{--<td>{{$p->valor_cuota}}</td>--}}
+                        {{--<td><strong>{{$p->valor_cuota}}</strong></td>--}}
                         <td>{{$p->vencimiento}}</td>
                         <!-- <td>{{$p->saldo}}</td> -->
 

@@ -28,6 +28,16 @@
         return true;       
         }
 
+        function formato(){
+             num1 = document.getElementById("total").value;
+
+             <?php  ?>
+             num1=number_format(num1 , 0, ',', '.');
+                $('#total').val(num1);
+             console.log(document.getElementById("total").value);
+             alert("hola");
+        }
+
 
 
     </script>
@@ -50,8 +60,10 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">$</span>
                     </div>
+                    
                     {{-- Form::number('total', null, ['class' => 'form-control']) --}}
                     {!! Form::number('total', null, ['class' => 'form-control', 'onInput' => 'divideBy(this)','oninvalid'=>'divideBy(this)','required','readonly']) !!}
+
                 </div>
             </div>
 
@@ -114,7 +126,11 @@ else{ ?>
 <?php } ?>
 
   
+
     
 </div>
+
+
 {!! Form::hidden('pagare', $deuda->pagare->id) !!}
 {!! Form::hidden('deuda_id', $deuda->id) !!}
+

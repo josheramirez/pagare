@@ -1,4 +1,6 @@
 <div class="form-row">
+ <?= $deuda->id?>
+    
     <div class="form-group col-md-2">
         {!! Form::label('vencimiento', 'Fecha vencimiento') !!}
         {!! Form::date('vencimiento', null, ['class' => 'form-control']) !!}

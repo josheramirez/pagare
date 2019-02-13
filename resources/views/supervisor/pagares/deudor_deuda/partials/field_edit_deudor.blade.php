@@ -10,7 +10,7 @@
     </div>
     <div class="form-group col-md-4">
         {!! Form::label('materno', 'Apellido materno') !!}
-        {!! Form::text('materno', null, ['class' => 'form-control', 'placeholder' => 'Ap. Materno']) !!}
+        {!! Form::text('materno', null, ['class' => 'form-control', 'placeholder' => 'A. Materno']) !!}
     </div>
 
 </div>
