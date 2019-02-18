@@ -61,8 +61,8 @@
                     <th>Prestaciones</th>
                     <th>Valor Cancelado</th>
                     <th>N° Boleta o Bono</th> -->
-                    <th>Monto</th>
-                    <th>Por pagar</th>
+                    <th>$ Deuda</th>
+                    <th>$ Por pagar</th>
                     <th>N° de cuotas</th>
                     <th class="noExport">Listar cuotas</th>
                     {{--<th>Valor Cuota</th>--}}
@@ -121,26 +121,38 @@
                         <td data-sort="<?php echo $saldo_deuda?>">
                             <?php   
 
-
-                            if($p->estado_id==3){?>
+                            if($p->estado_id==3){ ?>
                                 <button type="button" class="btn btn-danger btn-lg" style="font-size: 14px; padding:0px; padding-left: 16px; padding-right: 16px;">Anulado</button>
                             <?php 
-                            }else{
+                            }else{ ?>
+                                
+                                <?php 
+                                if($p->judicial==1){?>
+                                    <button type="button" class="btn btn-default btn-lg" style="font-size: 14px; padding:0px; padding-left: 19px; padding-right: 19px;background-color: #ff8000;color: #ffffff">Judicial</button>
+                                    
+                                <?php 
+                                }else{
 
-                                    if($saldo_deuda>10){ ?>
-                                        <button type="button" class="btn btn-warning btn-lg" style="font-size: 14px; padding:0px; padding-left: 10px; padding-right: 11px;">Pendiente</button>
-                                    <?php } 
-                                    if($saldo_deuda<=10 && $saldo_deuda>=-100){ ?>
-                                        <button type="button" class="btn btn-success btn-lg" style="font-size: 14px; padding:0px; padding-left: 19px; padding-right: 19px;">pagado</button>
-                                    <?php } 
-                                     if($saldo_deuda==-1000){ ?>
-                                        <button type="button" class="btn btn-purple btn-lg" style="font-size: 14px; padding:0px; padding-left: 6px; padding-right: 6px; background-color: #742CD1;color: #ffffff">Abonado</button>
-                                    <?php } 
-                                    if($saldo_deuda==-2000){ ?>
-                                        <button type="button" class="btn btn-info btn-lg" style="font-size: 14px; padding:0px; padding-left: 19px; padding-right: 19px;">Abierto</button>
-                                    <?php } 
-                            }
-                            ?>     
+                                        if($saldo_deuda>10){ ?>
+                                            <button type="button" class="btn btn-warning btn-lg" style="font-size: 14px; padding:0px; padding-left: 10px; padding-right: 11px;">Pendiente</button>
+                                        <?php } 
+                                        if($saldo_deuda<=10 && $saldo_deuda>=-100){ ?>
+                                            <button type="button" class="btn btn-success btn-lg" style="font-size: 14px; padding:0px; padding-left: 19px; padding-right: 19px;">Pagado</button>
+                                        <?php } 
+                                         if($saldo_deuda==-1000){ ?>
+                                            <button type="button" class="btn btn-purple btn-lg" style="font-size: 14px; padding:0px; padding-left: 13px; padding-right: 13px; background-color: #742CD1;color: #ffffff">Abonado</button>
+                                        <?php } 
+                                        if($saldo_deuda==-2000){ ?>
+                                            <button type="button" class="btn btn-info btn-lg" style="font-size: 14px; padding:0px; padding-left: 20px; padding-right: 20px;">Abierto</button>
+                                        <?php } 
+                                }
+                                ?>     
+
+                            <?php 
+                            } 
+                            ?>
+
+                               
 
                         </td>
 
@@ -162,18 +174,21 @@
 -->
 
 
-
+                        <!-- MONTO DEUDA -->
                         <td><strong>{{ number_format($p->total, 0, ',', '.')}}</strong></td>
-
-                        @if($saldo_deuda>10||$saldo_deuda<=10 && $saldo_deuda>=-100)
+                        
+                        <!-- MONTO POR PAGAR -->
+                        @if($saldo_deuda>10 or $saldo_deuda<=10 && $saldo_deuda>=-100)
                             @if($saldo_deuda>10)
                                 <td><strong>{{ number_format($saldo_deuda, 0, ',', '.')}}</strong></td>
                             @else($saldo_deuda<=10 && $saldo_deuda>=-100)
                              <td><strong>0</strong></td>
                             @endif
                         @else
-                            <td> </td>
+                            <td></td>
                         @endif
+
+                        <!-- N° DE CUOTAS DE LA DEUDA -->
                         <td>{{$p->n_cuota}}</td>
 
                         <td data-sort="<?php echo $p->n_cuota ?>">   
@@ -235,7 +250,7 @@
                                                 <tr>
                                                     <!--<th style="">Nº</th>-->
                                                     <th>N° cuota</th>
-                                                    <th style="">Valor Pagado</th>
+                                                    <th style="">Valor Cancelado</th>
                                                     <th>F. Vencimiento</th>
                                                     <th style="">Nº Boleta</th>
                                                     <th>Estado</th>
@@ -265,7 +280,10 @@
                                                                     <button type="button" class="btn btn-success btn-lg" style="font-size: 14px; padding:0px; padding-left: 15px; padding-right: 15px;">Pagado
                                                             <?php } if($k->estado=="anulado"){ ?>
                                                                     <button type="button" class="btn btn-danger btn-lg" style="font-size: 14px; padding:0px; padding-left: 16px; padding-right: 16px;">Anulado
-                                                            <?php } ?> 
+                                                            <?php } ?>
+
+
+
 
                                                         </td>
                                                     </tr>

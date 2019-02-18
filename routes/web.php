@@ -68,7 +68,7 @@ Route::get('reportes', function(){
 	        ->join('direcciones', 'deudores.direccion_id', '=', 'direcciones.id')
 	        ->leftJoin('previsiones', 'pacientes.prevision_id', '=', 'previsiones.id')
 	        ->join('deudas', 'pagares.deuda_id', '=', 'deudas.id')
-	        ->select(	'pagares.estado_id','pagares.numeracion', 'pagares.fecha','deudores.full_nombre AS deudor_nombre','deudores.rut',
+	        ->select(	'pagares.estado_id','pagares.numeracion', 'pagares.fecha','pagares.judicial','deudores.full_nombre AS deudor_nombre','deudores.rut',
 	        			'direcciones.calle','direcciones.numero','direcciones.poblacion',
 	        			'direcciones.comuna','direcciones.fono','pacientes.full_nombre AS paciente_nombre', 
 	        			'pacientes.rut AS paciente_rut', 'previsiones.nombre AS prevision', 'pagares.fecha',

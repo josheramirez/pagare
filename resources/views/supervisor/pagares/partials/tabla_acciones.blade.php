@@ -214,10 +214,20 @@ if ($observaciones->count()<1){
         <div>
             <h5 class="card-title">Judicial</h5>
             <p class="card-text">
+                
+
                 {!! Form::model($pagare, ['route'=> ['supervisor.pagare.estado.judicial', $pagare], 'method' => 'PUT', 'id' => 'from3']) !!}
                      Para enviar el pagare a proceso judicial presione el siguiente boton   
-                            {!! Form::submit('Enviar a judicial', ['class' => 'btn btn-primary', 'id' =>'btn-submit3']) !!} 
+                            {!! Form::submit('Enviar a judicial', ['class' => 'btn btn-primary', 'id' =>'btn-submit3']) !!}
+                            {{ Form::hidden('judicial_autor',Auth::user()->full_nombre) }}
                 {!! Form::close() !!}   
+             @if($pagare->judicial == 1)
+               <script>
+                   var boton_judicial= document.getElementById("btn-submit3");
+                    boton_judicial.disabled=true;
+                </script>
+            @endif
+                 
             </p>
         </div>
 

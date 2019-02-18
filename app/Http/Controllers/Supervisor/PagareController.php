@@ -431,10 +431,10 @@ class PagareController extends Controller
 
         $dato=request('motivo');
 
-$autor=request('motivo_autor');
-$fecha=Carbon::now();
+        $autor=request('motivo_autor');
+        $fecha=Carbon::now();
 
-//return dd($dato,$autor,$fecha);
+        //return dd($dato,$autor,$fecha);
 
         $pagare->motivo=$dato;
         $pagare->estado_id = 3;
@@ -448,7 +448,15 @@ $fecha=Carbon::now();
 public function updateEstadoJudicial(Pagare $pagare)
 {
 
-        return dd($pagare);
+    
+        $pagare->judicial=1;
+        $pagare->judicial_fecha=Carbon::now();
+        $pagare->judicial_autor=request('judicial_autor');
+        //return dd($pagare,$pagare->judicial_autor,request('judicial_autor'));
+        $pagare->save();
+        $log = Log::saveLog($pagare->codigo, 'ENVIO A JUDICIAL');
+        return redirect()->route('supervisor.pagare.view', [$pagare->id]);
+
 }
 
 

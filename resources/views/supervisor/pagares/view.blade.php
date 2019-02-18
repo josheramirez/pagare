@@ -9,14 +9,20 @@
         <h1>Pagare N° {{ $pagare->numeracion }}</h1>
         <p>
             <strong>Creado por: {{ $pagare->usuario->full_nombre }}</strong>
+
         </p>
         <p>
             @if($pagare->estado_id == 1)
-                <strong>Estador del pagare: <span class="badge badge-pill badge-warning">{{ $pagare->estado->tipo }}</span></strong>
+                <strong>Estado del pagare: <span class="badge badge-pill badge-warning">{{ $pagare->estado->tipo }}</span></strong>
             @elseif($pagare->estado_id == 2)
-                <strong>Estador del pagare: <span class="badge badge-pill badge-success">{{ $pagare->estado->tipo }}</span></strong>
+                <strong>Estado del pagare: <span class="badge badge-pill badge-success">{{ $pagare->estado->tipo }}</span></strong>
             @else
-                <strong>Estador del pagare: <span class="badge badge-pill badge-danger">{{ $pagare->estado->tipo }}</span></strong>
+                <strong>Estado del pagare: <span class="badge badge-pill badge-danger">{{ $pagare->estado->tipo }}</span></strong>
+            @endif
+
+            @if($pagare->judicial == 1)
+                <strong> este pagare fue enviado a <span class="badge badge-pill badge-danger">Judicial</span></strong>
+                 
             @endif
         </p>
         <div class="row">
