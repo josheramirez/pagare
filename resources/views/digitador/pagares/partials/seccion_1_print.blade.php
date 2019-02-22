@@ -35,7 +35,7 @@
     </tr>
     <tr>
         <td style="text-align: justify">
-            En Copiarock a: <strong><?php echo e(formatoFecha($pagare->fecha)); ?></strong> Yo, <strong><?php echo e($pagare->deudor->full_nombre); ?>  
+            En Copiapo a: <strong><?php echo e(formatoFecha($pagare->fecha)); ?></strong> Yo, <strong><?php echo e($pagare->deudor->full_nombre); ?>  
             </strong> Rut: <strong><?php echo e(formatoRut($pagare->deudor->rut)); ?></strong>,
             
             <!-- DOMICILIO, NUMERO-->
